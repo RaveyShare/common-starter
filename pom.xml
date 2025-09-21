@@ -1,0 +1,140 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.ravey.common</groupId>
+    <artifactId>common-starter</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <description>项目依赖</description>
+
+    <modules>
+        <module>common-web</module>
+        <module>common-utils</module>
+        <module>common-api</module>
+        <module>common-core</module>
+        <module>common-dao</module>
+        <module>common-service</module>
+        <module>common-redis</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
+        <common-dependencies.version>1.0.0</common-dependencies.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.ravey.common</groupId>
+                <artifactId>common-dependencies</artifactId>
+                <version>${common-dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.ravey.common</groupId>
+                <artifactId>common-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.ravey.common</groupId>
+                <artifactId>common-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.ravey.common</groupId>
+                <artifactId>common-dao-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.ravey.common</groupId>
+                <artifactId>common-utils</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.ravey.common</groupId>
+                <artifactId>common-redis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/RaveyShare/common-starter</url>
+        </repository>
+        <snapshotRepository>
+            <id>github</id>
+            <name>GitHub Packages snapshot</name>
+            <url>https://maven.pkg.github.com/RaveyShare/common-starter</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <scm>
+        <!-- 匿名只读访问（通常用 https） -->
+        <connection>scm:git:https://github.com/RaveyShare/common-starter.git</connection>
+        <!-- 开发者可写访问（通常用 ssh） -->
+        <developerConnection>scm:git:git@github.com:RaveyShare/common-starter.git</developerConnection>
+        <!-- 项目主页 -->
+        <url>https://github.com/RaveyShare/common-starter</url>
+        <!-- 当前分支/Tag，开发时一般填 HEAD -->
+        <tag>HEAD</tag>
+    </scm>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>3.0.0-M1</version>
+                    <configuration>
+                        <tagNameFormat>v@{project.version}</tagNameFormat>
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
+                        <arguments>-DskipTests -Dmaven.javadoc.skip=true</arguments>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>3.0.0-M1</version>
+                    <configuration>
+                        <skip>false</skip>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.2.1</version>
+                    <!-- 绑定source插件到Maven的生命周期,并在生命周期后执行绑定的source的goal -->
+                    <executions>
+                        <execution>
+                            <!-- 绑定source插件到Maven的生命周期 -->
+                            <phase>compile</phase>
+                            <!--在生命周期后执行绑定的source插件的goals -->
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>
