@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.annotation.Version;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.Objects;
 
 /**
  * 业务基础实体类
