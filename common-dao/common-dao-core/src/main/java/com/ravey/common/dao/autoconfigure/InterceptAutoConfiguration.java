@@ -4,7 +4,7 @@ package com.ravey.common.dao.autoconfigure;
 import com.ravey.common.dao.interceptor.InjectUserInterceptor;
 import com.ravey.common.dao.interceptor.SimpleDataAuthInterceptor;
 import com.ravey.common.dao.properties.InterceptorProperties;
-import com.github.pagehelper.autoconfigure.PageHelperAutoConfiguration;
+
 import jakarta.annotation.PostConstruct;
 import java.util.List;
 import org.apache.ibatis.plugin.Interceptor;
@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 
 @EnableConfigurationProperties(value={InterceptorProperties.class})
 @Configuration
-@AutoConfigureAfter(value={PageHelperAutoConfiguration.class})
+
 @ConditionalOnBean(value={SqlSessionFactory.class})
 public class InterceptAutoConfiguration {
     private final InterceptorProperties interceptorProperties;

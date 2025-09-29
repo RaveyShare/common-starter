@@ -77,11 +77,13 @@ extends AbstractInterceptor {
         }
         HashMap<String, Object> baseMap = new HashMap<String, Object>(16);
         baseMap.put("updater", userInfo.getUsername());
+        // 直接使用 String 类型的 userId
         baseMap.put("updaterId", userInfo.getUserId());
         baseMap.put("updateTime", LocalDateTime.now());
         if (type.equals((Object)SqlCommandType.INSERT)) {
             baseMap.put("createTime", LocalDateTime.now());
             baseMap.put("creator", userInfo.getUsername());
+            // 直接使用 String 类型的 userId
             baseMap.put("creatorId", userInfo.getUserId());
         }
         return baseMap;
