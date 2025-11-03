@@ -36,6 +36,8 @@ import org.springframework.data.redis.connection.lettuce.LettuceClientConfigurat
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.lang.NonNull;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
@@ -99,6 +101,14 @@ public class SlaveRedisConfiguration extends RedisConnectionConfiguration implem
                     this.addBeanDefinitionProperty(redisTemplateBuilder, "connectionFactory", connectionFactory);
                     String redisTemplateName = key + "RedisTemplate";
                     listableBeanFactory.registerBeanDefinition(redisTemplateName, redisTemplateBuilder.getBeanDefinition());
+                    
+                    // 配置RedisTemplate的序列化器
+                    RedisTemplate<Object, Object> redisTemplate = (RedisTemplate<Object, Object>) beanFactory.getBean(redisTemplateName);
+                    redisTemplate.setKeySerializer(new StringRedisSerializer());
+                    redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+                    redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+                    redisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+                    redisTemplate.afterPropertiesSet();
                     BeanDefinitionBuilder stringRedisTemplateBuilder = BeanDefinitionBuilder.rootBeanDefinition(StringRedisTemplate.class);
                     this.addBeanDefinitionProperty(stringRedisTemplateBuilder, "connectionFactory", connectionFactory);
                     String stringTemplate = key + "StringRedisTemplate";

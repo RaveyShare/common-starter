@@ -26,6 +26,8 @@ import org.springframework.data.redis.connection.lettuce.LettuceClientConfigurat
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
 @EnableConfigurationProperties({RedisProperties.class})
@@ -60,6 +62,16 @@ public class MasterRedisConfiguration extends RedisConnectionConfiguration {
     public RedisTemplate<Object, Object> masterRedisTemplate(@Qualifier("masterRedisConnectionFactory") RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<Object, Object> template = new RedisTemplate();
         template.setConnectionFactory(redisConnectionFactory);
+        
+        // 设置key的序列化器
+        template.setKeySerializer(new StringRedisSerializer());
+        template.setHashKeySerializer(new StringRedisSerializer());
+        
+        // 设置value的序列化器
+        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+        
+        template.afterPropertiesSet();
         return template;
     }
 
