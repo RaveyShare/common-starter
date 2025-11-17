@@ -19,7 +19,7 @@
 
     <properties>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-        <common-dependencies.version>1.0.0</common-dependencies.version>
+        <common-dependencies.version>1.0.5</common-dependencies.version>
     </properties>
 
     <dependencyManagement>
