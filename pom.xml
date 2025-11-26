@@ -22,6 +22,21 @@
         <common-dependencies.version>1.0.6</common-dependencies.version>
     </properties>
 
+    <!-- ⭐ 配置从 GitHub Packages 拉取依赖（通配符方式） -->
+    <repositories>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/RaveyShare/*</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
