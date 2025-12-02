@@ -3,7 +3,7 @@
 
     <groupId>com.ravey.common</groupId>
     <artifactId>common-starter</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3-SNAPSHOT</version>
     <packaging>pom</packaging>
     <description>项目依赖</description>
 
@@ -109,7 +109,7 @@
         <!-- 项目主页 -->
         <url>https://github.com/RaveyShare/common-starter</url>
         <!-- 当前分支/Tag，开发时一般填 HEAD -->
-        <tag>v1.0.2</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <build>
