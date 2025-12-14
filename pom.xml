@@ -19,7 +19,7 @@
 
     <properties>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-        <common-dependencies.version>1.0.7</common-dependencies.version>
+        <common-dependencies.version>1.0.8</common-dependencies.version>
     </properties>
 
     <!-- ⭐ 配置从 GitHub Packages 拉取依赖（通配符方式） -->
