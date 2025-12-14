@@ -12,10 +12,7 @@
     <description>dao层mybatis依赖</description>
     <dependencies>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-        </dependency>
+        
 
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
