@@ -15,11 +15,13 @@
         <module>common-dao</module>
         <module>common-service</module>
         <module>common-redis</module>
+        <module>common-object-store-core</module>
+        <module>common-object-store-aliyun</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-        <common-dependencies.version>1.0.8</common-dependencies.version>
+        <common-dependencies.version>1.0.9</common-dependencies.version>
     </properties>
 
     <!-- ⭐ 配置从 GitHub Packages 拉取依赖（通配符方式） -->
@@ -74,6 +76,18 @@
             <dependency>
                 <groupId>com.ravey.common</groupId>
                 <artifactId>common-redis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.ravey.common</groupId>
+                <artifactId>common-object-store-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.ravey.common</groupId>
+                <artifactId>common-object-store-aliyun</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
