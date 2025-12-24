@@ -1,9 +1,10 @@
-package com.ravey.common.api.model;
+package com.ravey.common.api.exception;
 
 
-import com.ravey.common.api.exception.ErrorCode;
 import com.ravey.common.api.utils.MessageFormatter;
+import lombok.Getter;
 
+@Getter
 public final class ServiceException extends RuntimeException {
     private static final long serialVersionUID = 8786892311981849335L;
     private final int code;
@@ -27,11 +28,4 @@ public final class ServiceException extends RuntimeException {
         this.message = params != null && params.length > 0 ? MessageFormatter.format(errorCode.getMessage(), params) : errorCode.getMessage();
     }
 
-    public int getCode() {
-        return this.code;
-    }
-
-    public String getMessage() {
-        return this.message;
-    }
 }

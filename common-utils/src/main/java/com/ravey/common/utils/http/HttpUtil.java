@@ -3,7 +3,7 @@ package com.ravey.common.utils.http;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.http.ContentType;
-import com.ravey.common.api.model.ServiceException;
+import com.ravey.common.api.exception.ServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
@@ -33,7 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 public class HttpUtil {
 
-    private static Integer RESP_LENGTH = 3000;
+    private static final Integer RESP_LENGTH = 3000;
 
     /**
      * 通用请求头

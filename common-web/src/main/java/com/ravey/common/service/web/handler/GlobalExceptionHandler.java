@@ -7,7 +7,7 @@ package com.ravey.common.service.web.handler;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import com.ravey.common.api.model.ServiceException;
+import com.ravey.common.api.exception.ServiceException;
 import com.ravey.common.service.web.result.HttpResult;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
