@@ -1,6 +1,6 @@
 package com.ravey.common.utils.http;
 
-import com.alibaba.fastjson.JSON;
+import com.ravey.common.utils.json.JsonUtil;
 import okhttp3.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -94,7 +94,7 @@ public class OkHttpClientUtil {
             ret = execute(request);
         } catch (Exception var8) {
             Exception e = var8;
-            logger.error("请求[url={}, header={}, requestParam={}, errMsg={}]", new Object[]{requestUri, JSON.toJSONString(headerParam), JSON.toJSONString(requestParam), e.getMessage()});
+            logger.error("请求[url={}, header={}, requestParam={}, errMsg={}]", new Object[]{requestUri, JsonUtil.bean2Json(headerParam), JsonUtil.bean2Json(requestParam), e.getMessage()});
         }
 
         return ret;

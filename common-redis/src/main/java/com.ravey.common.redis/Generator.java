@@ -5,14 +5,16 @@
 
 package com.ravey.common.redis;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.ravey.common.utils.json.JsonUtil;
 import jakarta.annotation.PostConstruct;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -21,7 +23,7 @@ import org.springframework.util.StringUtils;
 
 public class Generator {
     private final StringRedisTemplate redis;
-    private JSONObject secretMap;
+    private Map<String, Object> secretMap;
     private static final String[] DATE_FORMAT_ARR = new String[]{"yyyy", "yy", "MM", "dd"};
     public static final String SHARP = "#";
 
@@ -39,7 +41,7 @@ public class Generator {
                 list.add(this.stringFormat(i, 2));
             }
 
-            this.secretMap = new JSONObject();
+            this.secretMap = new HashMap<>();
             Random random = new Random();
 
             for(int i = 0; i < 100; ++i) {
@@ -48,9 +50,9 @@ public class Generator {
                 list.remove(index);
             }
 
-            this.redis.opsForValue().set("SecretSet", JSON.toJSONString(this.secretMap));
+            this.redis.opsForValue().set("SecretSet", JsonUtil.bean2Json(this.secretMap));
         } else {
-            this.secretMap = JSONObject.parseObject(val);
+            this.secretMap = JsonUtil.json2Bean(val, new TypeReference<Map<String, Object>>() {});
         }
 
     }
@@ -173,7 +175,7 @@ public class Generator {
         int len = str.length();
         String first = len > 2 ? str.substring(0, 1) : "";
         String high = len > 3 ? str.substring(1, len - 2) : "";
-        String low = this.secretMap.getString(str.substring(len - 2, len));
+        String low = (String) this.secretMap.get(str.substring(len - 2, len));
         return high + low + first;
     }
 
@@ -197,6 +199,6 @@ public class Generator {
         System.out.println(Math.random() * 100.0 * 100.0);
         String ss = "1#_";
         String[] split = ss.split("#");
-        System.out.println(JSON.toJSONString(split));
+        System.out.println(JsonUtil.bean2Json(split));
     }
 }

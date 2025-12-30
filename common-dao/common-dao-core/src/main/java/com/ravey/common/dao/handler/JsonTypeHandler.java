@@ -1,11 +1,12 @@
 
 package com.ravey.common.dao.handler;
 
-import com.alibaba.fastjson.JSON;
+import com.ravey.common.utils.json.JsonUtil;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 
@@ -21,18 +22,21 @@ implements TypeHandler<T> {
     }
 
     public void setParameter(PreparedStatement ps, int i, T t, JdbcType jdbcType) throws SQLException {
-        ps.setString(i, JSON.toJSONString(t));
+        ps.setString(i, JsonUtil.bean2Json(t));
     }
 
     public T getResult(ResultSet rs, String s) throws SQLException {
-        return (T)JSON.parseObject((String)rs.getString(s), this.clazz);
+        String json = rs.getString(s);
+        return StringUtils.isEmpty(json) ? null : JsonUtil.json2Bean(json, this.clazz);
     }
 
     public T getResult(ResultSet rs, int i) throws SQLException {
-        return (T)JSON.parseObject((String)rs.getString(i), this.clazz);
+        String json = rs.getString(i);
+        return StringUtils.isEmpty(json) ? null : JsonUtil.json2Bean(json, this.clazz);
     }
 
     public T getResult(CallableStatement cs, int i) throws SQLException {
-        return (T)JSON.parseObject((String)cs.getString(i), this.clazz);
+        String json = cs.getString(i);
+        return StringUtils.isEmpty(json) ? null : JsonUtil.json2Bean(json, this.clazz);
     }
 }

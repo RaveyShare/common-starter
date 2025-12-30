@@ -11,9 +11,7 @@
  */
 package com.ravey.common.dao.mp.handler.json;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
-import com.alibaba.fastjson.parser.Feature;
+import com.ravey.common.utils.json.JsonUtil;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,14 +23,17 @@ import org.apache.ibatis.type.JdbcType;
 
 public class MpArrayTypeHandler<T>
 extends BaseTypeHandler<List<T>> {
-    private final TypeReference<List<T>> typeReference;
+    private final Class<T> clazz;
 
     public MpArrayTypeHandler(Class<T> clazz) {
-        this.typeReference = new TypeReference<List<T>>() {};
+        if (clazz == null) {
+            throw new IllegalArgumentException("Type argument cannot be null");
+        }
+        this.clazz = clazz;
     }
 
     public void setNonNullParameter(PreparedStatement ps, int i, List<T> parameter, JdbcType jdbcType) throws SQLException {
-        ps.setString(i, JSON.toJSONString(parameter));
+        ps.setString(i, JsonUtil.bean2Json(parameter));
     }
 
     public void setParameter(PreparedStatement ps, int i, List<T> parameter, JdbcType jdbcType) throws SQLException {
@@ -71,6 +72,6 @@ extends BaseTypeHandler<List<T>> {
     }
 
     public List<T> parseResult(String json) {
-        return StringUtils.isEmpty((CharSequence)json) ? null : (List)JSON.parseObject((String)json, this.typeReference, (Feature[])new Feature[0]);
+        return StringUtils.isEmpty((CharSequence)json) ? null : JsonUtil.json2ListBean(json, this.clazz);
     }
 }

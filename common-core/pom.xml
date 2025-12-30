@@ -12,9 +12,11 @@
 
     <dependencies>
 
-        
+        <dependency>
+            <groupId>com.ravey.common</groupId>
+            <artifactId>common-utils</artifactId>
+        </dependency>
 
-    
     </dependencies>
 
 

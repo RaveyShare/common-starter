@@ -1,9 +1,7 @@
 
 package com.ravey.common.dao.handler;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
-import com.alibaba.fastjson.parser.Feature;
+import com.ravey.common.utils.json.JsonUtil;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,31 +11,37 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 
-public class ArrayTypeHandler<T>
-implements TypeHandler<List<T>> {
-    private final TypeReference<List<T>> typeReference;
+public class ArrayTypeHandler<T> implements TypeHandler<List<T>> {
+    private final Class<T> clazz;
 
     public ArrayTypeHandler(Class<T> clazz) {
-        this.typeReference = new TypeReference<List<T>>() {};
+        if (clazz == null) {
+            throw new IllegalArgumentException("Type argument cannot be null");
+        }
+        this.clazz = clazz;
     }
 
-    public void setParameter(PreparedStatement ps, int i, List<T> t, JdbcType jdbcType) throws SQLException {
-        ps.setString(i, JSON.toJSONString(t));
+    @Override
+    public void setParameter(PreparedStatement ps, int i, List<T> parameter, JdbcType jdbcType) throws SQLException {
+        ps.setString(i, JsonUtil.bean2Json(parameter));
     }
 
-    public List<T> getResult(ResultSet rs, String s) throws SQLException {
-        return this.parseResult(rs.getString(s));
+    @Override
+    public List<T> getResult(ResultSet rs, String columnName) throws SQLException {
+        return this.parseResult(rs.getString(columnName));
     }
 
-    public List<T> getResult(ResultSet rs, int i) throws SQLException {
-        return this.parseResult(rs.getString(i));
+    @Override
+    public List<T> getResult(ResultSet rs, int columnIndex) throws SQLException {
+        return this.parseResult(rs.getString(columnIndex));
     }
 
-    public List<T> getResult(CallableStatement cs, int i) throws SQLException {
-        return this.parseResult(cs.getString(i));
+    @Override
+    public List<T> getResult(CallableStatement cs, int columnIndex) throws SQLException {
+        return this.parseResult(cs.getString(columnIndex));
     }
 
     public List<T> parseResult(String json) {
-        return StringUtils.isEmpty((CharSequence)json) ? null : (List)JSON.parseObject((String)json, this.typeReference, (Feature[])new Feature[0]);
+        return StringUtils.isEmpty(json) ? null : JsonUtil.json2ListBean(json, this.clazz);
     }
 }

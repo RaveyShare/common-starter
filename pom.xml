@@ -22,6 +22,7 @@
     <properties>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <common-dependencies.version>1.0.9</common-dependencies.version>
+        <httpclient.version>4.5.14</httpclient.version>
     </properties>
 
     <!-- ⭐ 配置从 GitHub Packages 拉取依赖（通配符方式） -->
@@ -89,6 +90,18 @@
                 <groupId>com.ravey.common</groupId>
                 <artifactId>common-object-store-aliyun</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpmime</artifactId>
+                <version>${httpclient.version}</version>
             </dependency>
 
         </dependencies>

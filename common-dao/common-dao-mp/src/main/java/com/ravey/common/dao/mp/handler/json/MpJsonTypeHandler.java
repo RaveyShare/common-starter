@@ -9,7 +9,7 @@
  */
 package com.ravey.common.dao.mp.handler.json;
 
-import com.alibaba.fastjson.JSON;
+import com.ravey.common.utils.json.JsonUtil;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,7 +30,7 @@ extends BaseTypeHandler<T> {
     }
 
     public void setNonNullParameter(PreparedStatement ps, int i, T parameter, JdbcType jdbcType) throws SQLException {
-        ps.setString(i, JSON.toJSONString(parameter));
+        ps.setString(i, JsonUtil.bean2Json(parameter));
     }
 
     public void setParameter(PreparedStatement ps, int i, T parameter, JdbcType jdbcType) throws SQLException {
@@ -54,6 +54,6 @@ extends BaseTypeHandler<T> {
     }
 
     public T parseResult(String json) {
-        return (T)(StringUtils.isEmpty((CharSequence)json) ? null : JSON.parseObject((String)json, this.clazz));
+        return StringUtils.isEmpty((CharSequence)json) ? null : JsonUtil.json2Bean(json, this.clazz);
     }
 }

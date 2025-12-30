@@ -1,13 +1,13 @@
 package com.ravey.common.service.web.interceptor;
 
-import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ravey.common.core.user.UserCache;
 import com.ravey.common.core.user.UserInfo;
 import com.ravey.common.service.web.result.ErrorResult;
+import com.ravey.common.utils.json.JsonUtil;
+import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.io.IOException;
@@ -25,7 +25,7 @@ public class TransmitCacheInfoInterceptor implements HandlerInterceptor {
             String clientInfo;
             if (userInfoBase64 != null) {
                 clientInfo = new String(Base64.getDecoder().decode(userInfoBase64), StandardCharsets.UTF_8);
-                UserCache.setUserInfo((UserInfo) JSON.parseObject(clientInfo, UserInfo.class));
+                UserCache.setUserInfo(JsonUtil.json2Bean(clientInfo, UserInfo.class));
             }
             return true;
         } catch (Exception var7) {
@@ -40,7 +40,7 @@ public class TransmitCacheInfoInterceptor implements HandlerInterceptor {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
         ErrorResult er = new ErrorResult(-1, e.getMessage());
-        response.getWriter().write((new ObjectMapper()).writeValueAsString(er));
+        response.getWriter().write(JsonUtil.bean2Json(er));
     }
 
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex) throws Exception {

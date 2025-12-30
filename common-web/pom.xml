@@ -32,14 +32,6 @@
             <artifactId>slf4j-api</artifactId>
         </dependency>
 
-
-        
-
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>com.ravey.common</groupId>
             <artifactId>common-api</artifactId>

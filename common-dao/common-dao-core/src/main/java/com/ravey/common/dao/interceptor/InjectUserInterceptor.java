@@ -1,29 +1,21 @@
 
 package com.ravey.common.dao.interceptor;
 
-import com.alibaba.fastjson.JSON;
-import com.ravey.common.core.user.UserInfo;
 import com.ravey.common.core.user.UserCache;
+import com.ravey.common.core.user.UserInfo;
 import com.ravey.common.dao.annotation.InjectUser;
-import com.ravey.common.dao.interceptor.AbstractInterceptor;
 import com.ravey.common.dao.utils.InterceptorUtil;
 import com.ravey.common.dao.utils.ReflectUtil;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import com.ravey.common.utils.json.JsonUtil;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlCommandType;
-import org.apache.ibatis.plugin.Interceptor;
-import org.apache.ibatis.plugin.Intercepts;
-import org.apache.ibatis.plugin.Invocation;
-import org.apache.ibatis.plugin.Plugin;
-import org.apache.ibatis.plugin.Signature;
+import org.apache.ibatis.plugin.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Intercepts(value={@Signature(method="update", type=Executor.class, args={MappedStatement.class, Object.class})})
 public class InjectUserInterceptor
@@ -53,7 +45,7 @@ extends AbstractInterceptor {
         Object param = args[1] == null ? new HashMap(16) : args[1];
         Map<String, Object> baseEntity = this.buildBaseEntity(ms.getSqlCommandType());
         if (logger.isDebugEnabled()) {
-            logger.debug("SQL入参修改前{}", (Object)JSON.toJSONString((Object)param));
+            logger.debug("SQL入参修改前{}", JsonUtil.bean2Json(param));
         }
         if (param instanceof Map) {
             Map temp = (Map)param;
@@ -63,7 +55,7 @@ extends AbstractInterceptor {
             ReflectUtil.coverObj(baseEntity, param, injectUser.isForceInject());
         }
         if (logger.isDebugEnabled()) {
-            logger.debug("SQL入参修改后{}", (Object)JSON.toJSONString((Object)param));
+            logger.debug("SQL入参修改后{}", JsonUtil.bean2Json(param));
         }
         return invocation.proceed();
     }
